@@ -8,7 +8,6 @@ class AddItemPage extends StatefulWidget {
 }
 
 class _AddItemPageState extends State<AddItemPage> {
-  // 入力した投稿メッセージ
   String title = '';
   String describe = '';
 
@@ -27,8 +26,6 @@ class _AddItemPageState extends State<AddItemPage> {
               // 投稿メッセージ入力
               TextFormField(
                 decoration: InputDecoration(labelText: 'タイトル'),
-                // 複数行のテキスト入力
-                keyboardType: TextInputType.multiline,
                 onChanged: (String value) {
                   setState(() {
                     title = value;
@@ -53,8 +50,10 @@ class _AddItemPageState extends State<AddItemPage> {
                   onPressed: () async {
                     // 投稿メッセージ用ドキュメント作成
                     await FirebaseFirestore.instance
-                        .collection('items') // コレクションID指定
-                        .doc() // ドキュメントID自動生成
+                        .collection('collection') // コレクションID指定
+                        .doc('id_001') // ドキュメントID自動生成(collection)
+                        .collection('items')
+                        .doc() // ドキュメントID自動生成(items)
                         .set({
                       'title': title,
                       'describe': describe,

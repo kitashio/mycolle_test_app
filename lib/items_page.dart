@@ -22,16 +22,17 @@ class _MyHomePageState extends State<MyHomePage> {
             // FutureBuilder
             // 非同期処理の結果を元にWidgetを作れる
             child: FutureBuilder<QuerySnapshot>(
-              // 投稿メッセージ一覧を取得（非同期処理）
-              // 投稿日時でソート
+              // 一覧を取得（非同期処理）
               future: FirebaseFirestore.instance
+                  .collection('collection')
+                  .doc('id_001')
                   .collection('items')
                   .get(),
               builder: (context, snapshot) {
                 // データが取得できた場合
                 if (snapshot.hasData) {
                   final List<DocumentSnapshot> documents = snapshot.data!.docs;
-                  // 取得した投稿メッセージ一覧を元にリスト表示
+                  // 取得した一覧を元にリスト表示
                   return ListView(
                     children: documents.map((document) {
                       return Card(
