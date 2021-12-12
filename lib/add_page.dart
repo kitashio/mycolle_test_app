@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddItemPage extends StatefulWidget {
 
@@ -10,6 +12,10 @@ class AddItemPage extends StatefulWidget {
 class _AddItemPageState extends State<AddItemPage> {
   String title = '';
   String describe = '';
+  String imgURL = '';
+
+  late File _image;
+  final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,17 @@ class _AddItemPageState extends State<AddItemPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              //画像アップデート
+              IconButton(
+                onPressed: () async {
+                  final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+                  setState(() {
+                    _image = File(imgURL);
+                  });
+                },
+                icon: Icon(Icons.add),
+              ),
               // 投稿メッセージ入力
               TextFormField(
                 decoration: InputDecoration(labelText: 'タイトル'),
@@ -59,7 +76,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       'describe': describe,
                     });
                     // 1つ前の画面に戻る
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(_image);
                   },
                 ),
               )
