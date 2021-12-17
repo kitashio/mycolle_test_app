@@ -38,11 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: documents.map((document) {
                       return Card(
                         child: ListTile(
-                          // leading: Container(
-                          //     width: 300,
-                          //     child: _image == null
-                          //         ? Text('No image selected.')
-                          //         : Image.file(image)),
+                          leading: Container(
+                              width: 300,
+                              child:Image.network(document['imgURL']),
+                        ),
                           title: Text(document['title']),
                           subtitle: Text(document['describe']),
                         ),
