@@ -10,9 +10,8 @@ class AddItemPage extends StatefulWidget {
 }
 
 class _AddItemPageState extends State<AddItemPage> {
-  String title = '';
-  String describe = '';
-  String imgURL = '';
+  String? title;
+  String? describe;
 
   late File _image;
   final picker = ImagePicker();
@@ -31,13 +30,7 @@ class _AddItemPageState extends State<AddItemPage> {
             children: <Widget>[
               //画像アップデート
               IconButton(
-                onPressed: () async {
-                  final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-                  setState(() {
-                    _image = File(imgURL);
-                  });
-                },
+                onPressed: () {},
                 icon: Icon(Icons.add),
               ),
               // 投稿メッセージ入力

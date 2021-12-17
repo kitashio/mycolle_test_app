@@ -36,15 +36,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   // 取得した一覧を元にリスト表示
                   return ListView(
                     children: documents.map((document) {
-                      return Card(
-                        child: ListTile(
-                          leading: Container(
-                              width: 300,
-                              child:Image.network(document['imgURL']),
+                      return GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0, // 縦
+                          mainAxisSpacing: 10.0, // 横
+                          childAspectRatio: 0.86, // 高さ
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(10),
+                      children: List.generate(1, (index) {
+                      return Column(
+                      children: [
+                      GestureDetector(
+                      onTap: (){},
+                      child: Image.network('https://beefup.work/wp-content/uploads/2019/12/FlutterFavoriteLogo-c581613beba0abd3a92fa9d1c86e7b38062f92d104347a3a6bb28841233331fd.png',
+                      height: 170,
+                      width: 170,
+                      fit: BoxFit.cover,
+                      ),
+                      ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          child: Text(document['title']),//●タイトルが長過ぎた時の改行せずに・・・にする
                         ),
-                          title: Text(document['title']),
-                          subtitle: Text(document['describe']),
-                        ),
+                      ],
+                      );
+                      }),
                       );
                     }).toList(),
                   );
