@@ -69,7 +69,7 @@ class _AddItemPageState extends State<AddItemPage> {
                       'describe': describe,
                     });
                     // 1つ前の画面に戻る
-                    Navigator.of(context).pop(_image);
+                    Navigator.of(context).pop();
                   },
                 ),
               )

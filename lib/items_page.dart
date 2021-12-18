@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -24,25 +26,24 @@ class _MyHomePageState extends State<MyHomePage> {
             // 非同期処理の結果を元にWidgetを作れる
             child: FutureBuilder<QuerySnapshot>(
               // 一覧を取得（非同期処理）
-              future: FirebaseFirestore.instance
+              future:FirebaseFirestore.instance
                   .collection('collection')
                   .doc('id_001')
                   .collection('items')
                   .get(),
               builder: (context, snapshot) {
-                // データが取得できた場合
                 if (snapshot.hasData) {
-                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
-                  // 取得した一覧を元にリスト表示
-                  return ListView(
+              final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                    // 取得した一覧を元にリスト表示
+                    return GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0, // 縦
+                    mainAxisSpacing: 10.0, // 横
+                    childAspectRatio: 0.86, // 高さ
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(10),
                     children: documents.map((document) {
-                      return GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0, // 縦
-                          mainAxisSpacing: 10.0, // 横
-                          childAspectRatio: 0.86, // 高さ
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(10),
+                      return Column(
                       children: List.generate(1, (index) {
                       return Column(
                       children: [
@@ -76,12 +77,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddItemPage()),
           );
-        },
+          final document = FirebaseFirestore.instance
+              .collection('collection')
+              .doc('id_001')
+              .collection('items')
+              .get();
+          // 取得したドキュメントの情報をUIに反映
+          setState(() {
+          '${document['title']}';
+          });
+          },
       ),
     );
   }
