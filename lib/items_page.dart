@@ -16,58 +16,49 @@ class MyHomePage extends StatelessWidget {
         title: Text('コレクション'),
       ),
       body: Consumer<ItemsModel>(builder: (context, model,child) {
-          return Column(
-            children: [
-              Expanded(
-                // FutureBuilder
-                // 非同期処理の結果を元にWidgetを作れる
-                child: FutureBuilder<QuerySnapshot>(
-                  // 一覧を取得（非同期処理）
-                  future:model.fetchData();
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
-                        // 取得した一覧を元にリスト表示
-                        return GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0, // 縦
-                        mainAxisSpacing: 10.0, // 横
-                        childAspectRatio: 0.86, // 高さ
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(10),
-                        children: documents.map((document) {
-                          return Column(
-                          children: List.generate(1, (index) {
-                          return Column(
-                          children: [
-                          GestureDetector(
-                          onTap: (){},
-                          child: Image.network('https://beefup.work/wp-content/uploads/2019/12/FlutterFavoriteLogo-c581613beba0abd3a92fa9d1c86e7b38062f92d104347a3a6bb28841233331fd.png',
-                          height: 170,
-                          width: 170,
-                          fit: BoxFit.cover,
-                          ),
-                          ),
-                            Container(
-                              margin: EdgeInsets.all(8),
-                              child: Text(document['title']),//●タイトルが長過ぎた時の改行せずに・・・にする
-                            ),
-                          ],
-                          );
-                          }),
-                          );
-                        }).toList(),
+          return GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.0, // 縦
+            mainAxisSpacing: 10.0, // 横
+            shrinkWrap: true,
+            padding: EdgeInsets.all(10),
+            children: List.generate(3, (index) {
+              return Column(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyListPage()),
                       );
-                    }
-                    // データが読込中の場合
-                    return Center(
-                      child: Text('読込中...'),
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children:[
+                        Container(
+                          child: Image.asset('assets/image/IMG_6426.JPG',
+                            height: 170,
+                            width: 170,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(colletitle,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            letterSpacing: 3,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Color.fromRGBO(0, 0, 0, 0.3),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
         }
       ),
       floatingActionButton: FloatingActionButton(
@@ -83,10 +74,10 @@ class MyHomePage extends StatelessWidget {
               .doc('id_001')
               .get();
           // 取得したドキュメントの情報をUIに反映
-          setState(() {
-            titleee =
-            '${document['title']}';
-          });
+          // setState(() {
+          //   titleee =
+          //   '${document['title']}';
+          // });
         },
       ),
       ),

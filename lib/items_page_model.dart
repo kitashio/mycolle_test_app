@@ -12,7 +12,10 @@ class ItemsModel with ChangeNotifier {
         .doc('id_001')
         .collection('items')
         .get();
+
     notifyListeners();
+
+
    }
 
   }
