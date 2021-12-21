@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'add_page.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+
+  String colletitle = '';
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +27,12 @@ class MyHomePage extends StatelessWidget {
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyListPage()),
-                      );
-                    },
+                    onTap: (){},
                     child: Stack(
                       alignment: Alignment.center,
                       children:[
                         Container(
-                          child: Image.asset('assets/image/IMG_6426.JPG',
+                          child: Image.network('https://demo.a-blogcms.jp/media/001/201902/mode3_w400-7606c2743c3c40ddad9dc0c71f916329.png',
                             height: 170,
                             width: 170,
                             fit: BoxFit.cover,
@@ -58,7 +54,7 @@ class MyHomePage extends StatelessWidget {
                 ],
               );
             }),
-          ),
+          );
         }
       ),
       floatingActionButton: FloatingActionButton(

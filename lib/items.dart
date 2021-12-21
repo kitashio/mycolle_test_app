@@ -1,5 +1,7 @@
 class Items {
-  String? title;
-  String? describe;
+  Items(this.title,this.describe);
+
+  String title ='';
+  String describe ='';
 
 }
