@@ -16,7 +16,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('コレクション'),
       ),
-      body: Consumer<ItemsModel>(builder: (context, model,child) {
+      body: Consumer<ItemsModel>(builder: (context, model, child)  {
         final List<Items>? items = model.items;
 
         if (items == null) {
@@ -25,43 +25,44 @@ class MyHomePage extends StatelessWidget {
 
         final List<Widget> widgets = items
             .map((items) =>
-              Text(items.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                letterSpacing: 3,
-                fontWeight: FontWeight.bold,
-                backgroundColor: Color.fromRGBO(0, 0, 0, 0.3),
-              ),
-              ),)
-              .toList();
-
-          return GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0, // 縦
-            mainAxisSpacing: 10.0, // 横
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(10),
-            children: List.generate(3, (index) {
-              return GestureDetector(
-                onTap: (){},
-                child: Stack(
-                  alignment: Alignment.center,
-                  children:[
-                    Image.network('https://demo.a-blogcms.jp/media/001/201902/mode3_w400-7606c2743c3c40ddad9dc0c71f916329.png',
-                      height: 170,
-                      width: 170,
-                      fit: BoxFit.cover,
+            GestureDetector(
+              onTap: (){},
+              child: Stack(
+                alignment: Alignment.center,
+                children:[
+                  Image.network('https://demo.a-blogcms.jp/media/001/201902/mode3_w400-7606c2743c3c40ddad9dc0c71f916329.png',
+                    height: 170,
+                    width: 170,
+                    fit: BoxFit.cover,
+                  ),
+                  Column(
+                    children: [
+                      Text(items.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        letterSpacing: 3,
+                        fontWeight: FontWeight.bold,
+                        backgroundColor: Color.fromRGBO(0, 0, 0, 0.3),
+                      ),
                     ),
-                    Column(
-                      children: widgets,
-                    )
                   ],
-                ),
-              );
-            }),
-          );
-        }
+                  )
+                ],
+              ),
+            ),
+            )
+            .toList();
+
+        return GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0, // 縦
+          mainAxisSpacing: 10.0, // 横
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(10),
+          children: widgets
+        );
+      }
       ),
       floatingActionButton: Consumer<ItemsModel>(builder: (context, model,child) {
           return FloatingActionButton(
