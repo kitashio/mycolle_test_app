@@ -24,18 +24,16 @@ class AddItemPage extends StatelessWidget {
                       // 投稿メッセージ入力
                       TextFormField(
                         decoration: InputDecoration(labelText: 'タイトル'),
-                        onChanged: (String value) {
-
+                        onChanged: (text) {
+                          model.title = text;
                         },
                       ),
                       TextFormField(
                         decoration: InputDecoration(labelText: '説明'),
                         // 複数行のテキスト入力
                         keyboardType: TextInputType.multiline,
-                        onChanged: (String value) {
-                          setState(() {
-                            describe = value;
-                          });
+                        onChanged: (text) {
+                          model.describe = text;
                         },
                       ),
                       const SizedBox(height: 8),

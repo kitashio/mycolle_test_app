@@ -7,8 +7,6 @@ import 'items.dart';
 
 class MyHomePage extends StatelessWidget {
 
-  String colletitle = '';
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
