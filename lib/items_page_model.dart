@@ -7,7 +7,7 @@ class ItemsModel with ChangeNotifier {
 
   List<Items>? items;
 
-  void fetchData () async {
+  Future fetchData () async {
     final QuerySnapshot snapshot =  await FirebaseFirestore.instance
         .collection('collection')
         .doc('id_001')
