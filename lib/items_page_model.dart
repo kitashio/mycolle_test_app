@@ -1,46 +1,34 @@
-import 'package:flutter/foundation.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:mycolle_test_app/items.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class ItemsModel extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
-  bool _isSignIn;
 
-  GoogleSignInProvider() {
-    _isSignIn = false;
-  }
+class ItemsPageModel with ChangeNotifier {
+  bool login_flg = true;
 
-  bool get isSignIn => _isSignIn;
 
-  set isSignIn(bool isSignIn) {
-    _isSignIn = isSignIn;
+  Future<void> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+    await googleUser?.authentication;
+
+    // Create a new credential
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
+    print(FirebaseAuth.instance.currentUser?.email); //Google登録したemail
+    print(FirebaseAuth.instance.currentUser?.displayName); //Google登録した表示名
+    print(FirebaseAuth.instance.currentUser?.photoURL); //Google登録した画像URL
+
+    // Once signed in, return the UserCredential
+    this.login_flg = true;
     notifyListeners();
   }
-
-  //ログイン
-  Future login() async {
-    isSignIn = true;
-    final user = await googleSignIn.signIn();
-
-    if (user == null) {
-      isSignIn = false;
-      return;
-    } else {
-      final auth = await user.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: auth.accessToken,
-        idToken: auth.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      isSignIn = false;
-    }
-  }
-
-  //ログアウト
-  void logout() async {
-    await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
-  }
 }
+
